@@ -1,0 +1,54 @@
+#!/usr/bin/bash
+#
+# Script di autostart per Hyprland (Fedora con GNOME)
+# Basato sulla configurazione di Riccardo Palombo (https://riccardo.im)
+#
+
+# Configurazione socket per wob (On-screen display luminosità e volume)
+export SWAYSOCK="$XDG_RUNTIME_DIR"
+rm -f "$SWAYSOCK.wob"
+mkfifo "$SWAYSOCK.wob"
+tail -f "$SWAYSOCK.wob" | wob &
+
+# Notifiche
+mako &
+
+# Demone terminale foot
+foot --server &
+
+# Sfondo desktop
+if [ -f "$HOME/Pictures/thinkpad-oled.jpg" ]; then
+    swaybg -i "$HOME/Pictures/thinkpad-oled.jpg" &
+fi
+
+# Blocco schermo e sospensione dopo inattività
+swayidle -w timeout 300 'systemctl suspend' &
+
+# Barre di stato Waybar
+if [ -f "$HOME/scripts/waybar_top.sh" ]; then
+    "$HOME/scripts/waybar_top.sh" &
+fi
+if [ -f "$HOME/scripts/waybar_bottom.sh" ]; then
+    "$HOME/scripts/waybar_bottom.sh" &
+fi
+
+# Polkit Authentication Agent (Fallback robusto per Fedora GNOME / KDE)
+if [ -f /usr/libexec/polkit-gnome-authentication-agent-1 ]; then
+    /usr/libexec/polkit-gnome-authentication-agent-1 &
+elif [ -f /usr/libexec/kf6/polkit-kde-authentication-agent-1 ]; then
+    /usr/libexec/kf6/polkit-kde-authentication-agent-1 &
+elif [ -f /usr/libexec/kf5/polkit-kde-authentication-agent-1 ]; then
+    /usr/libexec/kf5/polkit-kde-authentication-agent-1 &
+elif [ -f /usr/lib/polkit-kde-authentication-agent-1 ]; then
+    /usr/lib/polkit-kde-authentication-agent-1 &
+fi
+
+# Sincronizzazione variabili sessione con DBus e Systemd utente
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP &
+systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP &
+
+# Impostazioni interfaccia desktop e font
+gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita' &
+gsettings set org.gnome.desktop.interface font-name 'JetBrains Mono 10' &
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' &
+gsettings set org.cinnamon.desktop.default-applications.terminal exec footclient 2>/dev/null &
