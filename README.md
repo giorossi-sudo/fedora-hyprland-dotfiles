@@ -20,6 +20,8 @@ Rispetto alla configurazione originale per Arch Linux, questo repository risolve
    `exa` è deprecato; `~/.bashrc` usa automaticamente il tool moderno `eza` con supporto retrocompatibile.
 5. **Gestione corretta del socket OSD wob**:  
    Configurazione standardizzata di `SWAYSOCK` su `$XDG_RUNTIME_DIR`.
+6. **Supporto e compatibilità con Hyprland 0.56+**:  
+   Sintassi delle window rules aggiornata (con prefisso `match:` e flag espliciti `float 1`), gestione moderna del blocco `shadow` in `decoration`, gestures e gestione della priorità dei file di configurazione con archiviazione automatica di eventuali `hyprland.lua` generati di default.
 
 ---
 

@@ -32,8 +32,10 @@ if [ -f "$HOME/scripts/waybar_bottom.sh" ]; then
     "$HOME/scripts/waybar_bottom.sh" &
 fi
 
-# Polkit Authentication Agent (Fallback robusto per Fedora GNOME / KDE)
-if [ -f /usr/libexec/polkit-gnome-authentication-agent-1 ]; then
+# Polkit Authentication Agent (Fallback robusto per Fedora GNOME / KDE / MATE)
+if [ -f /usr/libexec/polkit-mate-authentication-agent-1 ]; then
+    /usr/libexec/polkit-mate-authentication-agent-1 &
+elif [ -f /usr/libexec/polkit-gnome-authentication-agent-1 ]; then
     /usr/libexec/polkit-gnome-authentication-agent-1 &
 elif [ -f /usr/libexec/kf6/polkit-kde-authentication-agent-1 ]; then
     /usr/libexec/kf6/polkit-kde-authentication-agent-1 &

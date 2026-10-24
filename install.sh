@@ -74,6 +74,13 @@ mkdir -p "$HOME/Pictures"
 echo "Copia delle configurazioni in ~/.config..."
 cp -r "$SCRIPT_DIR/home/.config/"* "$HOME/.config/"
 
+# Gestione compatibilità Hyprland 0.56+: archiviazione hyprland.lua autogenerato
+if [ -f "$HOME/.config/hypr/hyprland.lua" ]; then
+    echo "Archiviazione file hyprland.lua generato automaticamente per usare hyprland.conf..."
+    mkdir -p "$HOME/.config/hypr/.lua_backup"
+    mv "$HOME/.config/hypr/hyprland.lua"* "$HOME/.config/hypr/.lua_backup/" 2>/dev/null || true
+fi
+
 # Copia script
 echo "Copia degli script in ~/scripts..."
 cp -r "$SCRIPT_DIR/home/scripts/"* "$HOME/scripts/"
