@@ -20,15 +20,11 @@
         "clock"       
     ],
     "modules-right": [
-//        "cpu",
-//        "memory",
-//        "temperature",
-//        "backlight",
-        "idle_inhibitor",
-//        "custom/write",
-//        "custom/gammastep",
-//       "pulseaudio",
-//        "pulseaudio#mic",
+        "cpu",
+        "memory",
+        "temperature",
+        "backlight",
+        "pulseaudio",
         "network",
         "bluetooth",
         "battery"
@@ -84,11 +80,13 @@
     },
     "cpu": {
         "format": "[CPU {usage}%",
-        "tooltip": false,
-        "on-click": "footclient --override=colors.background=000000 --title=fly-foot-tiled htop"
+        "tooltip": true,
+        "on-click": "flatpak run net.nokyan.Resources"
     },
     "memory": {
         "format": "RAM {}%",
+        "tooltip": true,
+        "on-click": "flatpak run net.nokyan.Resources"
     },
     "bluetooth": {
         "format": "",
@@ -101,37 +99,30 @@
         "on-click-right": "bluetoothctl power on"
     },
     "temperature": {
-        // "thermal-zone": 2,
-        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "thermal-zone": 10,
         "critical-threshold": 80,
-        // "format-critical": "{temperatureC}°C",
         "format": "TEMP {temperatureC}°C]",
-        "format-icons": [
-            "",
-            "",
-            ""
-        ],
         "tooltip": false,
+        "on-click": "flatpak run net.nokyan.Resources"
     },
     "backlight": {
-        // "device": "acpi_video1",
-        "format": "{icon}",
-		"format-icons": ["", ""]
+        "device": "intel_backlight",
+        "format": "{percent}% {icon}",
+        "format-icons": ["", ""],
+        "tooltip": false
     },
     "battery": {
         "states": {
-            // "good": 95,
-            "warning": 18,
-            "critical": 5
+            "warning": 20,
+            "critical": 10
         },
-        "format": "{icon}",
-        "format-charging": "",
-        "format-plugged": "",
-        "format-alt": "{power}W",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{capacity}%",
         "format-icons": ["", "", "", "", ""],
-        "tooltip-format": "{power}W - {capacity}%",
+        "tooltip-format": "{capacity}% - {timeTo}",
+        "on-click": "flatpak run net.nokyan.Resources"
     },
     "battery#bat2": {
         "bat": "BAT2"
@@ -176,9 +167,9 @@
         },
 
     "pulseaudio": {
-        "scroll-step": 10, // %, can be a float
-        "format": "{icon}",
-        "format-bluetooth": "{icon}",
+        "scroll-step": 5,
+        "format": "{volume}% {icon}",
+        "format-bluetooth": "{volume}% {icon}",
         //"format-bluetooth-muted": " {icon}",
         "format-muted": "",
         "format-source": "",

@@ -16,13 +16,18 @@ mako &
 # Demone terminale foot
 foot --server &
 
-# Sfondo desktop
-if [ -f "$HOME/Pictures/thinkpad-oled.jpg" ]; then
-    swaybg -i "$HOME/Pictures/thinkpad-oled.jpg" &
+# Sfondo desktop (lanciato tramite hyprctl per avere il contesto Wayland corretto)
+if [ -f "$HOME/Pictures/zenbook-diagonale-rossa-su-nero.png" ]; then
+    hyprctl dispatch exec "swaybg -i $HOME/Pictures/zenbook-diagonale-rossa-su-nero.png -m fill"
 fi
 
-# Blocco schermo e sospensione dopo inattività
-swayidle -w timeout 300 'systemctl suspend' &
+# Blocco schermo, spegnimento display OLED (2 min) e sospensione (8 min)
+killall swayidle 2>/dev/null
+swayidle -w \
+    timeout 120 'hyprctl dispatch dpms off' \
+    resume 'hyprctl dispatch dpms on' \
+    timeout 480 'systemctl suspend' \
+    before-sleep 'hyprctl dispatch dpms off' &
 
 # Barre di stato Waybar
 if [ -f "$HOME/scripts/waybar_top.sh" ]; then
@@ -51,6 +56,6 @@ systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP &
 
 # Impostazioni interfaccia desktop e font
 gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita' &
-gsettings set org.gnome.desktop.interface font-name 'JetBrains Mono 10' &
+gsettings set org.gnome.desktop.interface font-name 'JetBrains Mono 11' &
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' &
 gsettings set org.cinnamon.desktop.default-applications.terminal exec footclient 2>/dev/null &
