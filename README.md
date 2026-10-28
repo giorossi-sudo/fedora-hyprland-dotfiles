@@ -1,26 +1,30 @@
-# Fedora Hyprland Dotfiles (GNOME Coexistence)
+# Fedora Hyprland Dotfiles (ASUS Zenbook 14 & GNOME Coexistence)
 
-Porting e adattamento per **Fedora Linux** (Fedora 40 / 41 / 42 / 44+) con **GNOME** della celebre configurazione Hyprland di **Riccardo Palombo** originariamente creata per Arch/EndeavourOS su ThinkPad X1 Carbon OLED.
+Porting e adattamento per **Fedora Linux** (Fedora 40 / 41 / 42 / 44+) con **GNOME** della celebre configurazione Hyprland di **Riccardo Palombo**, ottimizzata e aggiornata su misura per **ASUS Zenbook 14 OLED** (display 2.8K @ 90Hz).
 
-> Crediti originali: [RiccardoPP/dotfiles](https://github.com/RiccardoPP/dotfiles) | [Riccardo Palombo YouTube](https://youtube.com/riccardopalombo)
+> Crediti originali: [RiccardoPP/dotfiles](https://github.com/RiccardoPP/dotfiles) (creata per Arch/EndeavourOS su ThinkPad X1) | [Riccardo Palombo YouTube](https://youtube.com/riccardopalombo)
 
 ---
 
-## 🚀 Novità e Adattamenti per Fedora
+## 🚀 Novità e Adattamenti
 
-Rispetto alla configurazione originale per Arch Linux, questo repository risolve tutte le incompatibilità con Fedora e consente una **convivenza pacifica e simultanea con GNOME**:
+Rispetto alla configurazione originale per Arch Linux/ThinkPad, questo repository include tutte le modifiche per **Fedora**, la **convivenza pacifica e simultanea con GNOME** e l'ottimizzazione per **ASUS Zenbook 14 OLED**:
 
-1. **Nessun conflitto con GNOME (`/etc/environment` eliminato)**:  
+1. **Ottimizzazione ASUS Zenbook 14 OLED (2.8K 90Hz & Touchpad)**:  
+   - Calibrazione monitor nativa su display OLED `2880x1800` a `90Hz` con scaling consigliato a `1.6` (`eDP-1`).
+   - Touchpad ottimizzato con `natural_scroll = yes`, `tap-to-click = yes` e gesture multi-touch a 3 dita per il cambio rapido dei workspace.
+   - Rimozione delle direttive specifiche per il TrackPoint ThinkPad.
+2. **Nessun conflitto con GNOME (`/etc/environment` eliminato)**:  
    Nella versione Arch le variabili globali `XDG_CURRENT_DESKTOP=Hyprland` venivano scritte in `/etc/environment`. Su Fedora questo corrompe l'avvio della sessione GNOME in GDM. In questo fork le variabili sono state spostate in sicurezza dentro `~/.config/hypr/hyprland.conf` tramite le direttive `env = ...`.
-2. **Polkit nativo per Fedora**:  
-   Su Fedora i binari degli agenti Polkit risiedono in `/usr/libexec/` invece di `/usr/lib/`. `autostart` utilizza prioritariamente l'agente GNOME nativo `/usr/libexec/polkit-gnome-authentication-agent-1` con fallback automatici.
-3. **Pacchetti DNF e COPR**:  
+3. **Polkit nativo per Fedora con fallback universale**:  
+   Su Fedora i binari degli agenti Polkit risiedono in `/usr/libexec/`. `autostart` include un fallback a cascata compatibile con MATE, GNOME e KDE (`polkit-mate`, `polkit-gnome`, `polkit-kde`).
+4. **Pacchetti DNF e COPR**:  
    Tutti i pacchetti Arch/AUR sono stati convertiti per il gestore pacchetti Fedora (`dnf` e repository COPR per `tofi`).
-4. **Passaggio da `exa` a `eza`**:  
+5. **Passaggio da `exa` a `eza`**:  
    `exa` è deprecato; `~/.bashrc` usa automaticamente il tool moderno `eza` con supporto retrocompatibile.
-5. **Gestione corretta del socket OSD wob**:  
+6. **Gestione corretta del socket OSD wob**:  
    Configurazione standardizzata di `SWAYSOCK` su `$XDG_RUNTIME_DIR`.
-6. **Supporto e compatibilità con Hyprland 0.56+**:  
+7. **Supporto e compatibilità con Hyprland 0.56+**:  
    Sintassi delle window rules aggiornata (con prefisso `match:` e flag espliciti `float 1`), gestione moderna del blocco `shadow` in `decoration`, gestures e gestione della priorità dei file di configurazione con archiviazione automatica di eventuali `hyprland.lua` generati di default.
 
 ---
@@ -48,15 +52,15 @@ Lo script si occuperà automaticamente di:
 
 ## 🖥️ Configurazione Monitor & Display
 
-La configurazione predefinita include le impostazioni calibrate per lo schermo OLED 2.8K (2880×1800) del ThinkPad X1:
+La configurazione predefinita è calibrata per lo schermo OLED 2.8K (2880×1800 a 90Hz) dell'**ASUS Zenbook 14 OLED**:
 ```ini
-monitor=,preferred,auto,1.7
+monitor=eDP-1,2880x1800@90,auto,1.6
 monitor=,addreserved,-15,-15,0,0
 ```
 
-Se utilizzi un display con risoluzione differente (es. Full HD 1920×1080 standard):
+Se utilizzi un display esterno o un monitor con risoluzione differente (es. Full HD 1920×1080 standard):
 1. Apri `~/.config/hypr/hyprland.conf`.
-2. Modifica la riga monitor impostando la scala desiderata (es. `1.0`):
+2. Modifica o aggiungi la riga monitor impostando la risoluzione e la scala desiderata (es. `1.0`):
    ```ini
    monitor=,preferred,auto,1.0
    ```
