@@ -52,14 +52,22 @@ sudo dnf install -y \
     polkit-gnome \
     python3-requests
 
-# 3. Installazione launcher tofi (tramite COPR se non presente)
-echo -e "\n${GREEN}[2/5] Verifica / Installazione di Tofi...${RESET}"
+# 3. Installazione launcher tofi (tramite COPR se non presente) e monitor risorse
+echo -e "\n${GREEN}[2/5] Verifica / Installazione di Tofi e Resources...${RESET}"
 if ! command -v tofi &>/dev/null; then
     echo "Installazione di tofi tramite repository COPR..."
     sudo dnf copr enable -y errornointernet/tofi || true
     sudo dnf install -y tofi || echo -e "${YELLOW}Nota: Se tofi non è disponibile, puoi usare rofi-wayland.${RESET}"
 else
     echo "Tofi è già installato."
+fi
+
+# Installazione opzionale ma consigliata di Resources (collegato al monitor CPU/RAM in Waybar)
+if ! command -v resources &>/dev/null && ! flatpak info net.nokyan.Resources &>/dev/null; then
+    if command -v flatpak &>/dev/null; then
+        echo "Installazione di Resources (Monitor di Sistema) via Flatpak..."
+        flatpak install -y flathub net.nokyan.Resources || true
+    fi
 fi
 
 # 4. Copia dei file di configurazione

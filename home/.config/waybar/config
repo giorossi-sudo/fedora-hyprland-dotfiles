@@ -205,7 +205,7 @@
     },
     "custom/command": {
         "format": "",
-        "on-click": "$HOME/scripts/rofi-power.sh",
+        "on-click": "$HOME/scripts/tofi-power.sh",
         "tooltip": false
     },
     "custom/lock": {

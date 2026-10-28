@@ -21,7 +21,7 @@
         "custom/write",
 //        "custom/power_profile",
 //		"idle_inhibitor",
-        "custom/pacman",
+        "custom/dnf",
         "custom/crypto"
     ],
     // Modules configuration
@@ -76,18 +76,18 @@
         "exec-if": "ping pro-api.coinmarketcap.com -c1",
         "on-click": "firefox --new-tab https://it.tradingview.com"
     },
-    "custom/pacman": {
-        "format": "PACMAN [{}]",
+    "custom/dnf": {
+        "format": "DNF [{}]",
         "interval": 7200,
-        "exec": "checkupdates | wc -l",
+        "exec": "$HOME/scripts/dnf-updates.sh",
         "exec-if": "exit 0",
-        
-       "on-click": "footclient --override=colors.background=6E1200 --override=colors.foreground=FFFFFF --title=fly-foot-write sudo pacman -Syu ; pkill -SIGRTMIN+8 waybar",
+        "on-click": "$HOME/scripts/dnf-updates.sh upgrade",
         "signal": 8,
-        "tooltip": false,
+        "tooltip": false
     },
     "custom/command": {
         "format": "",
+        "on-click": "$HOME/scripts/tofi-power.sh",
         "on-click-right": "$HOME/scripts/tofi-power.sh",
         "tooltip": false
     },
@@ -97,12 +97,10 @@
     "user": {
         "format": "UPTIME [{work_d}D {work_H}H {work_M}M]",
         "interval": 60,
-        "avatar": "/home/mm/pics/icons/face1.png",
         "height": 28,
         "width": 28,
         "icon": false,
-        "open-on-click": true,
-        "open-path": "home/mm/"
+        "open-on-click": true
     },
     "custom/write": {
         "format": "README",
@@ -112,13 +110,10 @@
     
     "custom/vpn": {
             "format": "{}",
-            "exec": "$HOME/scripts/rofi-nordvpn -s",
+            "exec": "$HOME/scripts/tofi-power.sh",
             "interval": 5,
-            "on-click-right": "$HOME/scripts/rofi-nordvpn &",
-            "on-click": "$HOME/scripts/rofi-power.sh",
+            "on-click": "$HOME/scripts/tofi-power.sh",
             "tooltip": false
-
-            
     },
     "disk": {
         "interval": 60,
