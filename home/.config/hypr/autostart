@@ -16,6 +16,9 @@ mako &
 # Demone terminale foot
 foot --server &
 
+# Demone effetti audio DSP (EasyEffects)
+easyeffects --gapplication-service &
+
 # Sfondo desktop (lanciato tramite hyprctl per avere il contesto Wayland corretto)
 if [ -f "$HOME/Pictures/zenbook-diagonale-rossa-su-nero.png" ]; then
     hyprctl dispatch exec "swaybg -i $HOME/Pictures/zenbook-diagonale-rossa-su-nero.png -m fill"
