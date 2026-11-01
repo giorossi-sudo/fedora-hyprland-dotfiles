@@ -95,7 +95,7 @@
         "tooltip-format": "{status}",
         "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
         "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-        "on-click": "blueman-manager",
+        "on-click": "gnome-control-center bluetooth",
         "on-click-right": "bluetoothctl power on"
     },
     "temperature": {
@@ -128,6 +128,7 @@
         "bat": "BAT2"
     },
     "network": {
+        "on-click": "nm-connection-editor",
         "tooltip-format": "{ipaddr} - {signalStrength}%",
         "format": "",
         "format-wifi": "",
