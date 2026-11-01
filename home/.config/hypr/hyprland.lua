@@ -1,11 +1,11 @@
 ----------------------------------------------------------------------------------------
 -- Hyprland Config - Fedora GNOME Adapted (Hyprland 0.57+ Lua)
 -- Basato sui dotfiles di Riccardo Palombo (ThinkPad X1 OLED)
--- Adattato per Fedora e ASUS Zenbook 14 OLED
+-- Adattato per Fedora e ASUS Zenbook 14 OLED (2880x1800 90Hz)
 ----------------------------------------------------------------------------------------
 
 --
--- VARIABILI D'AMBIENTE (Cruciali per la compatibilità Wayland e sessione GNOME su Fedora)
+-- VARIABILI D'AMBIENTE (Cruciali per compatibilità Wayland e sessione GNOME su Fedora)
 --
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
@@ -22,7 +22,7 @@ hl.env("EDITOR", "micro")
 hl.env("SWAYSOCK", os.getenv("XDG_RUNTIME_DIR") or "/run/user/1000")
 
 --
--- MONITOR (Ottimizzato per ASUS Zenbook 14 OLED 2.8K 2880x1800)
+-- MONITOR (ASUS Zenbook 14 OLED 2.8K 2880x1800 @ 90Hz con scala 1.6)
 --
 hl.monitor({
     output   = "eDP-1",
@@ -36,7 +36,7 @@ hl.monitor({
 })
 
 --
--- INPUT (Tastiera italiana e touchpad naturale)
+-- INPUT & COMPORTAMENTO
 --
 hl.config({
     input = {
@@ -54,9 +54,10 @@ hl.config({
         gaps_in     = 10,
         gaps_out    = 20,
         border_size = 2,
+        layout      = "dwindle",
 
         col = {
-            inactive_border = "0xFF181818",
+            inactive_border = "rgba(181818ff)",
             active_border   = {
                 colors = {"rgba(e6001277)", "rgba(18181811)", "rgba(e6001277)"},
                 angle  = 30,
@@ -97,16 +98,19 @@ hl.config({
     },
 })
 
--- Curve di animazione personalizzate
+--
+-- ANIMAZIONI & CURVE
+--
 hl.curve("overshot", { type = "bezier", points = { {0.13, 0.99}, {0.29, 1.1} } })
 
--- Animazioni
 hl.animation({ leaf = "windows",    enabled = true, speed = 4, bezier = "overshot", style = "slide" })
 hl.animation({ leaf = "border",     enabled = true, speed = 8, bezier = "default" })
 hl.animation({ leaf = "fade",       enabled = true, speed = 3, bezier = "default" })
 hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "overshot", style = "slide" })
 
--- Gesti touchpad (3 dita per cambiare workspace)
+--
+-- GESTI TOUCHPAD (Swipe orizzontale a 3 dita per cambiare workspace)
+--
 hl.gesture({
     fingers   = 3,
     direction = "horizontal",
@@ -146,8 +150,8 @@ hl.bind("SUPER + mouse:272",         hl.dsp.window.resize(), { mouse = true })
 --
 -- SCORCIATOIE APPLICAZIONI & SISTEMA
 --
-local mainMod = "SUPER"
-local swaysock = os.getenv("XDG_RUNTIME_DIR") or "/run/user/1000"
+local mainMod   = "SUPER"
+local swaysock  = os.getenv("XDG_RUNTIME_DIR") or "/run/user/1000"
 local wobSocket = swaysock .. ".wob"
 
 hl.bind(mainMod .. " + RETURN",         hl.dsp.exec_cmd("footclient"))
@@ -158,13 +162,15 @@ hl.bind(mainMod .. " + T",              hl.dsp.exec_cmd("nemo"))
 hl.bind(mainMod .. " + V",              hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + SPACE",          hl.dsp.exec_cmd("tofi-drun"))
 hl.bind(mainMod .. " + B",              hl.dsp.exec_cmd("killall -SIGUSR1 waybar"))
-hl.bind(mainMod .. " + F",              hl.dsp.window.fullscreen())
-hl.bind(mainMod .. " + SHIFT + F",      hl.dsp.window.fullscreen({ state = 1 }))
+
+-- Fullscreen: SUPER+F = vero fullscreen (0), SUPER+SHIFT+F = massimizza mantenendo gap/barre (1 / maximized)
+hl.bind(mainMod .. " + F",              hl.dsp.window.fullscreen({ mode = "fullscreen" }))
+hl.bind(mainMod .. " + SHIFT + F",      hl.dsp.window.fullscreen({ mode = "maximized" }))
 
 -- Screenshot
 hl.bind("Print", hl.dsp.exec_cmd("grim -l 1 " .. os.getenv("HOME") .. "/Pictures/$(date +'%s_grim.png') && notify-send 'Screenshot salvato!'"))
 
--- Navigazione finestre
+-- Navigazione e spostamento finestre
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
@@ -175,6 +181,7 @@ hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "right" 
 hl.bind(mainMod .. " + SHIFT + up",    hl.dsp.window.move({ direction = "up" }))
 hl.bind(mainMod .. " + SHIFT + down",  hl.dsp.window.move({ direction = "down" }))
 
+-- Ridimensionamento finestre attivo con ripetizione continua (SUPER + CTRL + Frecce)
 hl.bind(mainMod .. " + CTRL + left",  hl.dsp.window.resize({ x = -60, y = 0, relative = true }), { repeating = true })
 hl.bind(mainMod .. " + CTRL + right", hl.dsp.window.resize({ x = 60,  y = 0, relative = true }), { repeating = true })
 hl.bind(mainMod .. " + CTRL + up",    hl.dsp.window.resize({ x = 0,   y = -60, relative = true }), { repeating = true })
