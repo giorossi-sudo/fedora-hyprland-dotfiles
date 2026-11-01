@@ -39,7 +39,7 @@
     },
     "hyprland/workspaces": {
         "format": "{name}",
-        "on-click": "$HOME/scripts/switch_workspace.sh {name}"
+        "on-click": "activate"
     },
     "hyprland/window": {
         "format": "{}"
