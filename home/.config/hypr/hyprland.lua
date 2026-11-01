@@ -42,6 +42,8 @@ hl.config({
     input = {
         kb_layout    = "it",
         follow_mouse = 1,
+        repeat_rate  = 50,
+        repeat_delay = 400,
         sensitivity  = 0,
 
         touchpad = {

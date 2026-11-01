@@ -91,7 +91,8 @@ chmod +x "$HOME/.config/hypr/autostart"
 
 # Copia wallpaper
 echo "Copia dello sfondo in ~/Pictures..."
-cp -n "$SCRIPT_DIR/home/Pictures/"* "$HOME/Pictures/" 2>/dev/null || true
+mkdir -p "$HOME/Pictures/Wallpapers"
+cp -r -n "$SCRIPT_DIR/home/Pictures/"* "$HOME/Pictures/" 2>/dev/null || true
 
 # 5. Integrazione ~/.bashrc
 echo -e "\n${GREEN}[4/5] Configurazione alias di shell...${RESET}"
