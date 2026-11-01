@@ -1,7 +1,2 @@
 #!/usr/bin/bash
-#
-# Riccardo Palombo - https://riccardo.im
-# Preparato per la community Patreon: patreon.com/riccardopalombo
-#
-
-waybar -c $HOME/.config/waybar/config_bottom -s $HOME/.config/waybar/style_bottom.css &
+systemd-run --user --unit=waybar-bottom --collect /usr/bin/waybar -c $HOME/.config/waybar/config_bottom -s $HOME/.config/waybar/style_bottom.css
