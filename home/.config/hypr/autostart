@@ -4,6 +4,10 @@
 # Basato sulla configurazione di Riccardo Palombo (https://riccardo.im)
 #
 
+# Sincronizzazione variabili sessione con DBus e Systemd utente (anticipata per stabilità app Wayland)
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+
 # Configurazione socket per wob (On-screen display luminosità e volume)
 export SWAYSOCK="$XDG_RUNTIME_DIR"
 rm -f "$SWAYSOCK.wob"
@@ -18,11 +22,6 @@ foot --server &
 
 # Demone effetti audio DSP (EasyEffects)
 easyeffects --gapplication-service &
-
-# Sfondo desktop (lanciato tramite hyprctl per avere il contesto Wayland corretto)
-if [ -f "$HOME/Pictures/zenbook-diagonale-rossa-su-nero.png" ]; then
-    hyprctl dispatch exec "swaybg -i $HOME/Pictures/zenbook-diagonale-rossa-su-nero.png -m fill"
-fi
 
 # Blocco schermo, spegnimento display OLED (2 min) e sospensione (8 min)
 killall swayidle 2>/dev/null
@@ -52,10 +51,6 @@ elif [ -f /usr/libexec/kf5/polkit-kde-authentication-agent-1 ]; then
 elif [ -f /usr/lib/polkit-kde-authentication-agent-1 ]; then
     /usr/lib/polkit-kde-authentication-agent-1 &
 fi
-
-# Sincronizzazione variabili sessione con DBus e Systemd utente
-dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP &
-systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP &
 
 # Impostazioni interfaccia desktop e font
 gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita' &
