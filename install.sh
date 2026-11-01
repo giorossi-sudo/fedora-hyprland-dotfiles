@@ -82,12 +82,6 @@ mkdir -p "$HOME/Pictures"
 echo "Copia delle configurazioni in ~/.config..."
 cp -r "$SCRIPT_DIR/home/.config/"* "$HOME/.config/"
 
-# Gestione compatibilità Hyprland 0.56+: archiviazione hyprland.lua autogenerato
-if [ -f "$HOME/.config/hypr/hyprland.lua" ]; then
-    echo "Archiviazione file hyprland.lua generato automaticamente per usare hyprland.conf..."
-    mkdir -p "$HOME/.config/hypr/.lua_backup"
-    mv "$HOME/.config/hypr/hyprland.lua"* "$HOME/.config/hypr/.lua_backup/" 2>/dev/null || true
-fi
 
 # Copia script
 echo "Copia degli script in ~/scripts..."
@@ -119,7 +113,7 @@ echo -e "   - Clicca sull'icona a forma di ingranaggio in basso a destra."
 echo -e "   - Seleziona 'Hyprland' e inserisci la password."
 echo -e "2. Monitor e Scaling:"
 echo -e "   - La config è impostata originariamente con scala 1.7 per pannello OLED 2.8K."
-echo -e "   - Per schermi standard 1080p o diversi, modifica ~/.config/hypr/hyprland.conf"
+echo -e "   - Per schermi standard 1080p o diversi, modifica ~/.config/hypr/hyprland.lua"
 echo -e "     impostando la riga: monitor=,preferred,auto,1.0"
 echo -e "3. GNOME rimane intatto e selezionabile in qualunque momento dal menu GDM."
 echo -e "----------------------------------------------------------------------${RESET}"

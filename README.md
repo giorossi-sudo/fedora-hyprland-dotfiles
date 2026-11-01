@@ -1,6 +1,6 @@
 # Fedora Hyprland Dotfiles (ASUS Zenbook 14 & GNOME Coexistence)
 
-Porting e adattamento per **Fedora Linux** (Fedora 40 / 41 / 42 / 44+) con **GNOME** della celebre configurazione Hyprland di **Riccardo Palombo**, ottimizzata e aggiornata su misura per **ASUS Zenbook 14 OLED** (display 2.8K @ 90Hz).
+Porting e adattamento per **Fedora Linux** (Fedora 40 / 41 / 42 / 44+) con **GNOME** della celebre configurazione Hyprland di **Riccardo Palombo**, ottimizzata su misura per **ASUS Zenbook 14 OLED** (display 2.8K @ 90Hz) e pienamente aggiornata ad **Hyprland 0.57+ (Lua)**.
 
 > Crediti originali: [RiccardoPP/dotfiles](https://github.com/RiccardoPP/dotfiles) (creata per Arch/EndeavourOS su ThinkPad X1) | [Riccardo Palombo YouTube](https://youtube.com/riccardopalombo)
 
@@ -10,22 +10,26 @@ Porting e adattamento per **Fedora Linux** (Fedora 40 / 41 / 42 / 44+) con **GNO
 
 Rispetto alla configurazione originale per Arch Linux/ThinkPad, questo repository include tutte le modifiche per **Fedora**, la **convivenza pacifica e simultanea con GNOME** e l'ottimizzazione per **ASUS Zenbook 14 OLED**:
 
-1. **Ottimizzazione ASUS Zenbook 14 OLED (2.8K 90Hz & Touchpad)**:  
+1. **Pieno supporto nativo a Hyprland 0.57+ (Configurazione Lua)**:  
+   - Con Hyprland 0.57 il compositor è passato al parser nativo in Lua. La configurazione principale è fornita in `~/.config/hypr/hyprland.lua` con binding C++/Lua completi (`hl.bind`, `hl.dsp`, `hl.config`, `hl.window_rule`, `hl.animation`, `hl.gesture`).
+   - Mappatura completa delle modalità `fullscreen` classica e `maximized` (`SUPER + F` e `SUPER + SHIFT + F`).
+   - Mantenuta come riferimento retrocompatibile anche la sintassi classica in `hyprland.conf`.
+2. **Ottimizzazione ASUS Zenbook 14 OLED (2.8K 90Hz & Touchpad)**:  
    - Calibrazione monitor nativa su display OLED `2880x1800` a `90Hz` con scaling consigliato a `1.6` (`eDP-1`).
-   - Touchpad ottimizzato con `natural_scroll = yes`, `tap-to-click = yes` e gesture multi-touch a 3 dita per il cambio rapido dei workspace.
+   - Touchpad ottimizzato con `natural_scroll = true`, `tap_to_click = true` e gesture multi-touch a 3 dita per il cambio rapido dei workspace.
    - Rimozione delle direttive specifiche per il TrackPoint ThinkPad.
-2. **Nessun conflitto con GNOME (`/etc/environment` eliminato)**:  
-   Nella versione Arch le variabili globali `XDG_CURRENT_DESKTOP=Hyprland` venivano scritte in `/etc/environment`. Su Fedora questo corrompe l'avvio della sessione GNOME in GDM. In questo fork le variabili sono state spostate in sicurezza dentro `~/.config/hypr/hyprland.conf` tramite le direttive `env = ...`.
-3. **Polkit nativo per Fedora con fallback universale**:  
+3. **Nessun conflitto con GNOME (`/etc/environment` eliminato)**:  
+   Nella versione Arch le variabili globali `XDG_CURRENT_DESKTOP=Hyprland` venivano scritte in `/etc/environment`. Su Fedora questo corrompe l'avvio della sessione GNOME in GDM. In questo fork le variabili sono impostate in sicurezza a livello di sessione Hyprland (`hl.env`).
+4. **Waybar stabili tramite systemd utente**:  
+   Avvio e gestione delle due barre Waybar (top e bottom) tramite `systemd-run --user`, garantendo che rimangano persistenti, stabili e prive di duplicati durante reload o cambi di workspace.
+5. **Polkit nativo per Fedora con fallback universale**:  
    Su Fedora i binari degli agenti Polkit risiedono in `/usr/libexec/`. `autostart` include un fallback a cascata compatibile con MATE, GNOME e KDE (`polkit-mate`, `polkit-gnome`, `polkit-kde`).
-4. **Pacchetti DNF e COPR**:  
+6. **Pacchetti DNF e COPR**:  
    Tutti i pacchetti Arch/AUR sono stati convertiti per il gestore pacchetti Fedora (`dnf` e repository COPR per `tofi`).
-5. **Passaggio da `exa` a `eza`**:  
+7. **Passaggio da `exa` a `eza`**:  
    `exa` è deprecato; `~/.bashrc` usa automaticamente il tool moderno `eza` con supporto retrocompatibile.
-6. **Gestione corretta del socket OSD wob**:  
+8. **Gestione corretta del socket OSD wob**:  
    Configurazione standardizzata di `SWAYSOCK` su `$XDG_RUNTIME_DIR`.
-7. **Supporto e compatibilità con Hyprland 0.56+**:  
-   Sintassi delle window rules aggiornata (con prefisso `match:` e flag espliciti `float 1`), gestione moderna del blocco `shadow` in `decoration`, gestures e gestione della priorità dei file di configurazione con archiviazione automatica di eventuali `hyprland.lua` generati di default.
 
 ---
 
@@ -44,25 +48,38 @@ Lo script si occuperà automaticamente di:
 - Installare tutti i pacchetti necessari tramite `dnf`.
 - Abilitare COPR e installare il launcher `tofi`.
 - Installare i font JetBrains Mono e FontAwesome.
-- Copiare i file di configurazione in `~/.config/` e gli script in `~/scripts/`.
-- Copiare lo sfondo in `~/Pictures/thinkpad-oled.jpg`.
+- Copiare i file di configurazione (`hyprland.lua`, waybar, foot, mako, wob) in `~/.config/` e gli script in `~/scripts/`.
+- Copiare lo sfondo in `~/Pictures/`.
 - Aggiungere gli alias utili in `~/.bashrc`.
 
 ---
 
 ## 🖥️ Configurazione Monitor & Display
 
-La configurazione predefinita è calibrata per lo schermo OLED 2.8K (2880×1800 a 90Hz) dell'**ASUS Zenbook 14 OLED**:
-```ini
-monitor=eDP-1,2880x1800@90,auto,1.6
-monitor=,addreserved,-15,-15,0,0
+La configurazione predefinita è calibrata in `~/.config/hypr/hyprland.lua` per lo schermo OLED 2.8K (2880×1800 a 90Hz) dell'**ASUS Zenbook 14 OLED**:
+```lua
+hl.monitor({
+    output   = "eDP-1",
+    mode     = "2880x1800@90",
+    position = "auto",
+    scale    = 1.6,
+})
+hl.monitor({
+    output   = "",
+    reserved = {-15, -15, 0, 0},
+})
 ```
 
 Se utilizzi un display esterno o un monitor con risoluzione differente (es. Full HD 1920×1080 standard):
-1. Apri `~/.config/hypr/hyprland.conf`.
-2. Modifica o aggiungi la riga monitor impostando la risoluzione e la scala desiderata (es. `1.0`):
-   ```ini
-   monitor=,preferred,auto,1.0
+1. Apri `~/.config/hypr/hyprland.lua`.
+2. Modifica la sezione monitor:
+   ```lua
+   hl.monitor({
+       output   = "",
+       mode     = "preferred",
+       position = "auto",
+       scale    = 1.0,
+   })
    ```
 
 ---
@@ -72,14 +89,20 @@ Se utilizzi un display esterno o un monitor con risoluzione differente (es. Full
 | Scorciatoia | Azione |
 | :--- | :--- |
 | `Super + Invio` | Terminale Foot (`footclient`) |
-| `Super + Shift + Invio` | Terminale Foot flottante con bordo rosso |
+| `Super + Shift + Invio` | Terminale Foot con bordo e background personalizzato |
 | `Super + Spazio` | Menu Applicazioni (`tofi-drun`) |
 | `Super + Shift + E` | Menu Sessione / Spegnimento (`Logout`, `Reboot`, `Suspend`, `Shutdown`) |
 | `Super + T` | File Manager Nemo |
 | `Super + V` | Attiva/disattiva finestra flottante |
-| `Super + F` | Schermo intero (Fullscreen) |
-| `Super + Shift + Q` | Chiudi finestra attiva |
+| `Super + F` | Schermo intero (Fullscreen assoluto) |
+| `Super + Shift + F` | Massimizza finestra (Fullscreen preservando Waybar e margini) |
+| `Super + Shift + Q` | Chiudi / killa finestra attiva |
 | `Super + B` | Nascondi/Mostra barre Waybar |
+| `Super + Frecce` | Navigazione focus tra finestre (sinistra, destra, su, giù) |
+| `Super + Shift + Frecce` | Spostamento finestre |
+| `Super + Ctrl + Frecce` | Ridimensionamento finestre continuo |
+| `Super + 1..0` | Passa al workspace 1..10 |
+| `Super + Shift + 1..0` | Sposta finestra al workspace 1..10 in modo silente |
 | `Stamp (Print)` | Screenshot rapido salvato in `~/Pictures/` |
 | `Volume / Luminosità` | Tasti funzione multimediali con barra a schermo Wob |
 
