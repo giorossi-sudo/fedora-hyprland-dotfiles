@@ -88,6 +88,7 @@ echo "Copia degli script in ~/scripts..."
 cp -r "$SCRIPT_DIR/home/scripts/"* "$HOME/scripts/"
 chmod +x "$HOME/scripts/"*.sh
 chmod +x "$HOME/.config/hypr/autostart"
+[ -f "$HOME/.config/waybar/modules/crypto/waybar_crypto.py" ] && chmod +x "$HOME/.config/waybar/modules/crypto/waybar_crypto.py"
 
 # Copia wallpaper
 echo "Copia dello sfondo in ~/Pictures..."
