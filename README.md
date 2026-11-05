@@ -1,6 +1,6 @@
 # Fedora Hyprland Dotfiles (ASUS Zenbook 14 & GNOME Coexistence)
 
-Porting e adattamento per **Fedora Linux** (Fedora 40 / 41 / 42 / 44+) con **GNOME** della celebre configurazione Hyprland di **Riccardo Palombo**, ottimizzata su misura per **ASUS Zenbook 14 OLED** (display 2.8K @ 90Hz) e pienamente aggiornata ad **Hyprland 0.57+ (Lua)**.
+Porting e adattamento per **Fedora Linux** (Fedora 40 / 41 / 42 / 44) con **GNOME** della celebre configurazione Hyprland di **Riccardo Palombo**, ottimizzata su misura per **ASUS Zenbook 14 OLED** (display 2.8K @ 90Hz) e pienamente aggiornata ad **Hyprland 0.57+ (Lua)**.
 
 > Crediti originali: [RiccardoPP/dotfiles](https://github.com/RiccardoPP/dotfiles) (creata per Arch/EndeavourOS su ThinkPad X1) | [Riccardo Palombo YouTube](https://youtube.com/riccardopalombo)
 
