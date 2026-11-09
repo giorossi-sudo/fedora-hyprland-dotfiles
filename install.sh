@@ -50,7 +50,8 @@ sudo dnf install -y \
     fontawesome-fonts \
     xdg-desktop-portal-hyprland \
     polkit-gnome \
-    python3-requests
+    python3-requests \
+    jq
 
 # 3. Installazione launcher tofi (tramite COPR se non presente) e monitor risorse
 echo -e "\n${GREEN}[2/5] Verifica / Installazione di Tofi e Resources...${RESET}"
