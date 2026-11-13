@@ -159,7 +159,7 @@ local wobSocket = swaysock .. ".wob"
 
 hl.bind(mainMod .. " + RETURN",         hl.dsp.exec_cmd("footclient"))
 hl.bind(mainMod .. " + SHIFT + RETURN", hl.dsp.exec_cmd("footclient --override=colors.background=6E1200 --title=fly-foot-tiled"))
-hl.bind(mainMod .. " + SHIFT + Q",      hl.dsp.window.kill())
+hl.bind(mainMod .. " + SHIFT + Q",      hl.dsp.window.close())
 hl.bind(mainMod .. " + SHIFT + E",      hl.dsp.exec_cmd(os.getenv("HOME") .. "/scripts/tofi-power.sh"))
 hl.bind(mainMod .. " + T",              hl.dsp.exec_cmd("nemo"))
 hl.bind(mainMod .. " + V",              hl.dsp.window.float({ action = "toggle" }))
