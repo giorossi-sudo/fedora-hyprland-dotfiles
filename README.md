@@ -25,7 +25,7 @@ Rispetto alla configurazione originale per Arch Linux/ThinkPad, questo repositor
 5. **Polkit nativo per Fedora con fallback universale**:  
    Su Fedora i binari degli agenti Polkit risiedono in `/usr/libexec/`. `autostart` include un fallback a cascata compatibile con MATE, GNOME e KDE (`polkit-mate`, `polkit-gnome`, `polkit-kde`).
 6. **Pacchetti DNF e COPR**:  
-   Tutti i pacchetti Arch/AUR sono stati convertiti per il gestore pacchetti Fedora (`dnf` e repository COPR per `tofi`).
+   Tutti i pacchetti Arch/AUR sono stati convertiti per il gestore pacchetti Fedora (`dnf` e repository COPR `ashbuk/Hyprland-Fedora` per `hyprland` e `alternateved/tofi` per `tofi`).
 7. **Passaggio da `exa` a `eza`**:  
    `exa` è deprecato; `~/.bashrc` usa automaticamente il tool moderno `eza` con supporto retrocompatibile.
 8. **Gestione corretta del socket OSD wob**:  
@@ -45,8 +45,8 @@ chmod +x install.sh
 ```
 
 Lo script si occuperà automaticamente di:
-- Installare tutti i pacchetti necessari tramite `dnf`.
-- Abilitare COPR e installare il launcher `tofi`.
+- Abilitare il repository COPR `ashbuk/Hyprland-Fedora` e installare tutti i pacchetti necessari tramite `dnf`.
+- Abilitare il repository COPR `alternateved/tofi` e installare il launcher `tofi`.
 - Installare i font JetBrains Mono e FontAwesome.
 - Copiare i file di configurazione (`hyprland.lua`, waybar, foot, mako, wob) in `~/.config/` e gli script in `~/scripts/`.
 - Copiare lo sfondo in `~/Pictures/`.

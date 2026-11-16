@@ -24,8 +24,10 @@ if [ -f /etc/os-release ]; then
     fi
 fi
 
-# 2. Installazione pacchetti DNF
-echo -e "\n${GREEN}[1/5] Installazione dei pacchetti tramite DNF...${RESET}"
+# 2. Abilitazione COPR per Hyprland e installazione pacchetti DNF
+echo -e "\n${GREEN}[1/5] Abilitazione COPR Hyprland e installazione pacchetti DNF...${RESET}"
+sudo dnf copr enable -y ashbuk/Hyprland-Fedora
+
 sudo dnf install -y \
     hyprland \
     waybar \
@@ -47,9 +49,9 @@ sudo dnf install -y \
     wob \
     eza \
     jetbrains-mono-fonts-all \
-    fontawesome-fonts \
+    fontawesome-fonts-all \
     xdg-desktop-portal-hyprland \
-    polkit-gnome \
+    mate-polkit \
     python3-requests \
     jq
 
@@ -57,8 +59,8 @@ sudo dnf install -y \
 echo -e "\n${GREEN}[2/5] Verifica / Installazione di Tofi e Resources...${RESET}"
 if ! command -v tofi &>/dev/null; then
     echo "Installazione di tofi tramite repository COPR..."
-    sudo dnf copr enable -y errornointernet/tofi || true
-    sudo dnf install -y tofi || echo -e "${YELLOW}Nota: Se tofi non è disponibile, puoi usare rofi-wayland.${RESET}"
+    sudo dnf copr enable -y alternateved/tofi || true
+    sudo dnf install -y tofi || echo -e "${YELLOW}Nota: Se tofi non è disponibile, puoi usare wofi o rofi.${RESET}"
 else
     echo "Tofi è già installato."
 fi
